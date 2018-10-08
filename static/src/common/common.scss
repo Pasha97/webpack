@@ -1,0 +1,13 @@
+@import "colors.scss";
+@import "fonts";
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: $color-text;
+    box-sizing: border-box;
+}
+
+body{
+ background-color: $background-color-body;
+}

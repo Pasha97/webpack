@@ -5,10 +5,13 @@ let path = require('path'),
     MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: './static/src/base.js',
+    entry: {
+        first: './static/src/base.js',
+        second: './static/src/app/app.js'
+    },
     output: {
         path: path.resolve(__dirname, './static/build'),
-        filename: 'main.js'
+        filename: '[name].js'
     },
     module: {
         rules: [
@@ -19,11 +22,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: ExtractTextPlugin.extract(
-                    {
-                        fallback: 'style-loader',
-                        use: ['css-loader', 'postcss-loader', 'sass-loader']
-                    })
+                use: [ 'style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
@@ -32,15 +31,16 @@ module.exports = {
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
                 loader: 'file-loader?name=fonts/[name].[ext]'
-            }
+            },
         ]
     },
-
     plugins: [
-        new ExtractTextPlugin({filename: 'style.css'}),
+        new MiniCssExtractPlugin({
+            filename: 'style.css',
+        }),
         require('autoprefixer'),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
+            filename: "[name].css"
         })
     ],
 };

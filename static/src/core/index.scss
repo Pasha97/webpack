@@ -10,4 +10,10 @@
     background-repeat: no-repeat;
     background-size: contain;
   }
+
+  &__footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

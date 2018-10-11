@@ -1,8 +1,10 @@
 let path = require('path'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
     autoprefixer = require('autoprefixer'),
     webpack = require("webpack"),
-    MiniCssExtractPlugin = require('mini-css-extract-plugin');
+    OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    WebpackMd5Hash = require('webpack-md5-hash'),
+    MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
@@ -17,12 +19,14 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: '/node_modules/'
+                exclude: '/node_modules/',
+                use: [
+                    'babel-loader'
+                ],
             },
             {
                 test: /\.scss$/,
-                use: [ 'style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+                use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
@@ -35,12 +39,15 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'style.css',
-        }),
         require('autoprefixer'),
         new MiniCssExtractPlugin({
-            filename: "[name].css"
-        })
+            filename: "style.css"
+        }),
+        new HtmlWebpackPlugin({
+            inject: false,
+            hash: true,
+            template: './static/src/core/index.html',
+            filename: 'index.html'
+        }),
     ],
 };
